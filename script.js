@@ -97,6 +97,7 @@ const Scene = {
                                     var redNose = new THREE.Mesh(redNoseSphere, redNoseMaterial);
                                     redNose.position.z = 8;
                                     redNose.position.y = 167;
+                                    redNose.castShadow = true;
                                     redNose.visible = false;
 
                                     var greenWigSphere = new THREE.SphereGeometry(18, 32, 32);
@@ -104,6 +105,7 @@ const Scene = {
                                     var greenWig = new THREE.Mesh(greenWigSphere, greenWigMaterial);
                                     greenWig.position.z = -13.5;
                                     greenWig.position.y = 182;
+                                    greenWig.castShadow = true;
                                     greenWig.visible = false;
 
                                     //Positionnement du trophée
@@ -457,15 +459,17 @@ const Scene = {
     },
     clownParty: () => {
         Scene.vars.boutonGroup.children[0].position.y = -2; //doit être plus smooth
+        Scene.vars.boutonGroup.children[1].position.y = 23;
         Scene.vars.goldGroup.children[7].visible = true;
         Scene.vars.goldGroup.children[8].visible = true;
         Scene.vars.silverGroup.children[7].visible = true;
         Scene.vars.silverGroup.children[8].visible = true;
         Scene.vars.bronzeGroup.children[7].visible = true;
         Scene.vars.bronzeGroup.children[8].visible = true;
-        Scene.vars.scene.children[9].visible = false;
-        Scene.vars.scene.children[11].visible = false;
-        Scene.vars.scene.children[13].visible = false;
+        //Scene.vars.scene.children[7].color = new THREE.Color(0xff0000);
+        Scene.vars.scene.children[9].color = new THREE.Color(0x0000ff);
+        Scene.vars.scene.children[11].color = new THREE.Color(0xff0000);
+        Scene.vars.scene.children[13].color = new THREE.Color(0x00ff00);
         Scene.vars.delta = Scene.vars.clock.getDelta();
         if (Scene.vars.delta%4 == 0) {
             // Scene.vars.scene.children[9].visible = false;
@@ -476,7 +480,7 @@ const Scene = {
             // Scene.vars.scene.children[11].visible = true;
             // Scene.vars.scene.children[13].visible = true;
         }
-        // Scene.vars.boutonGroup.children[0].position.y = 0;
+        //Scene.vars.boutonGroup.children[0].position.y = 0;
         
     }
 };
