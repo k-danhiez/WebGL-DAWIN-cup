@@ -91,6 +91,21 @@ const Scene = {
                             Scene.loadText(Scene.vars.text, 10, [0, 23, 46], [0, 0, 0], 0x1A1A1A, "texte", () => {
                                 Scene.loadText(Scene.vars.textButton, 5, [0, 25, 0], [Math.PI * (-0.5), 0, 0], 0xFFFFFF, "texteBouton", () => {
 
+                                    //Costume de clown
+                                    var redNoseSphere = new THREE.SphereGeometry(3, 32, 32);
+                                    var redNoseMaterial = new THREE.MeshStandardMaterial( {color: 0xad0c00, roughness: .3, metalness: .6} );
+                                    var redNose = new THREE.Mesh(redNoseSphere, redNoseMaterial);
+                                    redNose.position.z = 8;
+                                    redNose.position.y = 167;
+                                    redNose.visible = false;
+
+                                    var greenWigSphere = new THREE.SphereGeometry(18, 32, 32);
+                                    var greenWigMaterial = new THREE.MeshStandardMaterial( {color: 0x34c400, roughness: .3, metalness: .6} );
+                                    var greenWig = new THREE.Mesh(greenWigSphere, greenWigMaterial);
+                                    greenWig.position.z = -13.5;
+                                    greenWig.position.y = 182;
+                                    greenWig.visible = false;
+
                                     //Positionnement du trophée
                                     let trophy = new THREE.Group();
                                     trophy.add(Scene.vars.socle1);
@@ -104,6 +119,9 @@ const Scene = {
                                     logo2.position.x = -45;
                                     logo2.rotation.z = Math.PI;
                                     trophy.add(logo2);
+
+                                    trophy.add(redNose);
+                                    trophy.add(greenWig);
 
                                     let trophy2 = trophy.clone();
                                     let trophy3 = trophy.clone();
@@ -429,23 +447,34 @@ const Scene = {
         //Statuette
         if(Scene.vars.animPurcent >= 0.4) {
             Scene.vars.goldGroup.children[2].translateY(base * 3);
+            Scene.vars.goldGroup.children[7].translateY(base * 3);
+            Scene.vars.goldGroup.children[8].translateY(base * 3);
         } else if (Scene.vars.animPurcent < 0.7) {
             Scene.vars.goldGroup.children[2].position.y = 0;
+            Scene.vars.goldGroup.children[7].position.y = 167;
+            Scene.vars.goldGroup.children[8].position.y = 182;
         }
     },
     clownParty: () => {
-        console.log('oui');
-        Scene.vars.boutonGroup.children[0].position.y = -2;
+        Scene.vars.boutonGroup.children[0].position.y = -2; //doit être plus smooth
+        Scene.vars.goldGroup.children[7].visible = true;
+        Scene.vars.goldGroup.children[8].visible = true;
+        Scene.vars.silverGroup.children[7].visible = true;
+        Scene.vars.silverGroup.children[8].visible = true;
+        Scene.vars.bronzeGroup.children[7].visible = true;
+        Scene.vars.bronzeGroup.children[8].visible = true;
+        Scene.vars.scene.children[9].visible = false;
+        Scene.vars.scene.children[11].visible = false;
+        Scene.vars.scene.children[13].visible = false;
         Scene.vars.delta = Scene.vars.clock.getDelta();
         if (Scene.vars.delta%4 == 0) {
-            console.log(Scene.vars.scene.children.length);
-            // Scene.vars.scene.children[10].visible = false;
-            // Scene.vars.scene.children[12].visible = false;
-            // Scene.vars.scene.children[14].visible = false;
+            // Scene.vars.scene.children[9].visible = false;
+            // Scene.vars.scene.children[11].visible = false;
+            // Scene.vars.scene.children[13].visible = false;
         } else if (Scene.vars.delta%4 == 2) {
-            // Scene.vars.scene.children[10].visible = true;
-            // Scene.vars.scene.children[12].visible = true;
-            // Scene.vars.scene.children[14].visible = true;
+            // Scene.vars.scene.children[9].visible = true;
+            // Scene.vars.scene.children[11].visible = true;
+            // Scene.vars.scene.children[13].visible = true;
         }
         // Scene.vars.boutonGroup.children[0].position.y = 0;
         
