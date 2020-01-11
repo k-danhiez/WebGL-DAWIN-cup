@@ -11,7 +11,9 @@ const Scene = {
         camera: null,
         mouse: new THREE.Vector2(),
         raycaster: new THREE.Raycaster(),
-        animPurcent: 0
+        animPurcent: 0,
+        clock: new THREE.Clock(),
+        delta: 0 //units a second
     },
     init:() => {
         let vars = Scene.vars;
@@ -68,13 +70,39 @@ const Scene = {
         let sphere = new THREE.Mesh(geometry, material);
         vars.scene.add(sphere);
 
+        //Création du bouton
+
+            //Base
+            var geometryCylinder = new THREE.CylinderGeometry( 20, 20, 30, 32 );
+            var materialCylinder = new THREE.MeshBasicMaterial( {color: 0x333333} );
+            var cylinder = new THREE.Mesh( geometryCylinder, materialCylinder );
+            cylinder.position.z = 60;
+            vars.scene.add(cylinder);
+
+            //Bouton
+
+            var geometryButton = new THREE.SphereGeometry(25, 32, 32, 0, Math.PI * 2, 0, 0.75);
+            var materialButton = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
+            var button = new THREE.Mesh( geometryButton, materialButton );
+            button.position.z = 60;
+            vars.scene.add(button);
+
+            //Texte
+
+            // var geometryText = new THREE.TextGeometry('Clown Party', {
+            //     size: 5,
+			// 	height: 0.8,
+			// 	font: 'helvetiker',
+			// 	weight: 'normal',
+			// 	style: 'normal'
+            // })
+
         //Chargement des textures
         vars.texture = new THREE.TextureLoader().load('./texture/marbre.jpg');
 
         //Récupération du texte
         let hash = document.location.hash.substr(1);
         if (hash.length !== 0) {
-            let texthash = hash.substring();
             Scene.vars.text = decodeURI(hash.substring());
         } else {
             Scene.vars.text = "DAWIN";
@@ -156,6 +184,7 @@ const Scene = {
                                 let helper1 = new THREE.DirectionalLightHelper(light1, 5);
                                 light1.position.set(0,50,100);
                                 light1.target = Scene.vars.goldGroup;
+                                light1.name = "light1";
 
                                 let light2 = new THREE.DirectionalLight(0xffffff, lightIntensity);
                                 let helper2 = new THREE.DirectionalLightHelper(light2, 5);
@@ -396,6 +425,20 @@ const Scene = {
         } else if (Scene.vars.animPurcent < 0.7) {
             Scene.vars.goldGroup.children[2].position.y = 0;
         }
+    },
+    clown_party: () => {
+        Scene.vars.delta = Scene.vars.clock.getDelta();
+        if (Scene.vars.delta%4 == 0) {
+            console.log(Scene.vars.scene.children.length);
+            // Scene.vars.scene.children[10].visible = false;
+            // Scene.vars.scene.children[12].visible = false;
+            // Scene.vars.scene.children[14].visible = false;
+        } else if (Scene.vars.delta%4 == 2) {
+            // Scene.vars.scene.children[10].visible = true;
+            // Scene.vars.scene.children[12].visible = true;
+            // Scene.vars.scene.children[14].visible = true;
+        }
+        
     }
 };
 
