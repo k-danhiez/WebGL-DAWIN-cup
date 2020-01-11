@@ -13,7 +13,8 @@ const Scene = {
         raycaster: new THREE.Raycaster(),
         animPurcent: 0,
         clock: new THREE.Clock(),
-        delta: 0 //units a second
+        delta: 0, //units a second
+        textButton: "Clown Party"
     },
     init:() => {
         let vars = Scene.vars;
@@ -58,10 +59,10 @@ const Scene = {
         vars.scene.add(shadowPlane);
 
         //Texture du sol - Grid Helper
-        let grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
-        grid.material.opacity = 0.2;
-        grid.material.transparent = true;
-        vars.scene.add(grid);
+        // let grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+        // grid.material.opacity = 0.2;
+        // grid.material.transparent = true;
+        // vars.scene.add(grid);
 
         //Création de la bulle
         let geometry = new THREE.SphereGeometry(1000, 32, 32);
@@ -69,33 +70,6 @@ const Scene = {
         material.side = THREE.DoubleSide;
         let sphere = new THREE.Mesh(geometry, material);
         vars.scene.add(sphere);
-
-        //Création du bouton
-
-            //Base
-            var geometryCylinder = new THREE.CylinderGeometry( 20, 20, 30, 32 );
-            var materialCylinder = new THREE.MeshBasicMaterial( {color: 0x333333} );
-            var cylinder = new THREE.Mesh( geometryCylinder, materialCylinder );
-            cylinder.position.z = 60;
-            vars.scene.add(cylinder);
-
-            //Bouton
-
-            var geometryButton = new THREE.SphereGeometry(25, 32, 32, 0, Math.PI * 2, 0, 0.75);
-            var materialButton = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
-            var button = new THREE.Mesh( geometryButton, materialButton );
-            button.position.z = 60;
-            vars.scene.add(button);
-
-            //Texte
-
-            // var geometryText = new THREE.TextGeometry('Clown Party', {
-            //     size: 5,
-			// 	height: 0.8,
-			// 	font: 'helvetiker',
-			// 	weight: 'normal',
-			// 	style: 'normal'
-            // })
 
         //Chargement des textures
         vars.texture = new THREE.TextureLoader().load('./texture/marbre.jpg');
@@ -115,134 +89,159 @@ const Scene = {
                     Scene.loadFBX("Plaquette.FBX", 10, [0, 4, 45], [0, 0, 0], 0xFFFFFF, "plaquette", () => {
                         Scene.loadFBX("Logo_Feelity.FBX", 10, [45, 22, 0], [0, 0, 0], 0xFFFFFF, "logo1", () => {
                             Scene.loadText(Scene.vars.text, 10, [0, 23, 46], [0, 0, 0], 0x1A1A1A, "texte", () => {
+                                Scene.loadText(Scene.vars.textButton, 5, [0, 25, 0], [Math.PI * (-0.5), 0, 0], 0xFFFFFF, "texteBouton", () => {
 
-                                //Positionnement du trophée
-                                let trophy = new THREE.Group();
-                                trophy.add(Scene.vars.socle1);
-                                trophy.add(Scene.vars.socle2);
-                                trophy.add(Scene.vars.statuette);
-                                trophy.add(Scene.vars.plaquette);
-                                trophy.add(Scene.vars.logo1);
-                                trophy.add(Scene.vars.texte);
-                                
-                                let logo2 = Scene.vars.logo1.clone();
-                                logo2.position.x = -45;
-                                logo2.rotation.z = Math.PI;
-                                trophy.add(logo2);
+                                    //Positionnement du trophée
+                                    let trophy = new THREE.Group();
+                                    trophy.add(Scene.vars.socle1);
+                                    trophy.add(Scene.vars.socle2);
+                                    trophy.add(Scene.vars.statuette);
+                                    trophy.add(Scene.vars.plaquette);
+                                    trophy.add(Scene.vars.logo1);
+                                    trophy.add(Scene.vars.texte);
+                                    
+                                    let logo2 = Scene.vars.logo1.clone();
+                                    logo2.position.x = -45;
+                                    logo2.rotation.z = Math.PI;
+                                    trophy.add(logo2);
 
-                                let trophy2 = trophy.clone();
-                                let trophy3 = trophy.clone();
+                                    let trophy2 = trophy.clone();
+                                    let trophy3 = trophy.clone();
 
-                                vars.scene.add(trophy);
-                                vars.scene.add(trophy2);
-                                vars.scene.add(trophy3);
+                                    vars.scene.add(trophy);
+                                    vars.scene.add(trophy2);
+                                    vars.scene.add(trophy3);
 
-                                trophy.position.z = -50;
-                                trophy.position.y = 10;
-                                Scene.vars.goldGroup = trophy;
+                                    trophy.position.z = -50;
+                                    trophy.position.y = 10;
+                                    Scene.vars.goldGroup = trophy;
 
-                                trophy2.position.x = -200;
-                                trophy2.position.y = 10;
-                                trophy2.rotation.y = (Math.PI)/4
-                                trophy2.children[2].traverse(node => {
-                                    if (node.isMesh) {
-                                        node.material = new THREE.MeshStandardMaterial({
-                                            color: new THREE.Color(0xC0C0C0),
-                                            roughness: .3,
-                                            metalness: .6
-                                        });
-                                    }
+                                    trophy2.position.x = -200;
+                                    trophy2.position.y = 10;
+                                    trophy2.rotation.y = (Math.PI)/4
+                                    trophy2.children[2].traverse(node => {
+                                        if (node.isMesh) {
+                                            node.material = new THREE.MeshStandardMaterial({
+                                                color: new THREE.Color(0xC0C0C0),
+                                                roughness: .3,
+                                                metalness: .6
+                                            });
+                                        }
+                                    });
+                                    Scene.vars.silverGroup = trophy2;
+
+                                    trophy3.position.x = 200;
+                                    trophy3.position.y = 10;
+                                    trophy3.rotation.y = -(Math.PI)/4
+                                    trophy3.children[2].traverse(node => {
+                                        if (node.isMesh) {
+                                            node.material = new THREE.MeshStandardMaterial({
+                                                color: new THREE.Color(0xCD7F32),
+                                                roughness: .3,
+                                                metalness: .6
+                                            });
+                                        }
+                                    });
+                                    Scene.vars.bronzeGroup = trophy3;
+
+                                    //Ajout de la lumière
+                                    let lightIntensity = 0.25;
+
+                                    let directional = new THREE.DirectionalLight(0xffffff, lightIntensity);
+                                    let helper = new THREE.DirectionalLightHelper(directional, 5);
+                                    directional.position.set(0, 700, 200);
+
+                                    let light1 = new THREE.DirectionalLight(0xffffff, lightIntensity);
+                                    let helper1 = new THREE.DirectionalLightHelper(light1, 5);
+                                    light1.position.set(0,50,100);
+                                    light1.target = Scene.vars.goldGroup;
+                                    light1.name = "light1";
+
+                                    let light2 = new THREE.DirectionalLight(0xffffff, lightIntensity);
+                                    let helper2 = new THREE.DirectionalLightHelper(light2, 5);
+                                    light2.position.set(-75,50,100);
+                                    light2.target = Scene.vars.silverGroup;
+
+                                    let light3 = new THREE.DirectionalLight(0xffffff, lightIntensity);
+                                    let helper3 = new THREE.DirectionalLightHelper(light3, 5);
+                                    light3.position.set(75,50,100);
+                                    light3.target = Scene.vars.bronzeGroup;
+
+                                    vars.scene.add(directional);
+                                    vars.scene.add(helper);
+                                    vars.scene.add(light1);
+                                    vars.scene.add(helper1);
+                                    vars.scene.add(light2);
+                                    vars.scene.add(helper2);
+                                    vars.scene.add(light3);
+                                    vars.scene.add(helper3);
+
+                                    //Ajout des ombres
+                                    directional.castShadow = true;
+                                    light1.castShadow = true;
+                                    light2.castShadow = true;
+                                    light3.castShadow = true;
+                                    let d = 1000;
+
+                                    directional.shadow.camera.left = -d;
+                                    directional.shadow.camera.right = d;
+                                    directional.shadow.camera.top = d;
+                                    directional.shadow.camera.bottom = -d;
+                                    directional.shadow.camera.far = 2000;
+                                    directional.shadow.mapSize.width = 4096;
+                                    directional.shadow.mapSize.height = 4096;
+
+                                    light1.shadow.camera.left = -d;
+                                    light1.shadow.camera.right = d;
+                                    light1.shadow.camera.top = d;
+                                    light1.shadow.camera.bottom = -d;
+                                    light1.shadow.camera.far = 2000;
+                                    light1.shadow.mapSize.width = 4096;
+                                    light1.shadow.mapSize.height = 4096;
+                                    
+                                    light2.shadow.camera.left = -d;
+                                    light2.shadow.camera.right = d;
+                                    light2.shadow.camera.top = d;
+                                    light2.shadow.camera.bottom = -d;
+                                    light2.shadow.camera.far = 2000;
+                                    light2.shadow.mapSize.width = 4096;
+                                    light2.shadow.mapSize.height = 4096;
+
+                                    light3.shadow.camera.left = -d;
+                                    light3.shadow.camera.right = d;
+                                    light3.shadow.camera.top = d;
+                                    light3.shadow.camera.bottom = -d;
+                                    light3.shadow.camera.far = 2000;
+                                    light3.shadow.mapSize.width = 4096;
+                                    light3.shadow.mapSize.height = 4096;
+
+                                    //Création du bouton
+
+                                    //Base
+                                    var geometryCylinder = new THREE.CylinderGeometry( 20, 20, 30, 32 );
+                                    var materialCylinder = new THREE.MeshBasicMaterial( {color: 0x333333} );
+                                    var cylinder = new THREE.Mesh( geometryCylinder, materialCylinder );
+                                    cylinder.position.z = 60;
+                                    vars.scene.add(cylinder);
+
+                                    //Bouton
+
+                                    var geometryButton = new THREE.SphereGeometry(25, 32, 32, 0, Math.PI * 2, 0, 0.75);
+                                    var materialButton = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
+                                    var buttonTop = new THREE.Mesh( geometryButton, materialButton );
+                                    let bouton = new THREE.Group();
+                                    bouton.add(buttonTop);
+                                    bouton.add(Scene.vars.texteBouton);
+                                    bouton.position.z = 60;
+                                    vars.scene.add(bouton);
+
+                                    Scene.vars.boutonGroup = bouton;
+
+
+
+                                    document.querySelector('#loading').remove();
+                                    Scene.vars.animSpeed = -0.05;
                                 });
-                                Scene.vars.silverGroup = trophy2;
-
-                                trophy3.position.x = 200;
-                                trophy3.position.y = 10;
-                                trophy3.rotation.y = -(Math.PI)/4
-                                trophy3.children[2].traverse(node => {
-                                    if (node.isMesh) {
-                                        node.material = new THREE.MeshStandardMaterial({
-                                            color: new THREE.Color(0xCD7F32),
-                                            roughness: .3,
-                                            metalness: .6
-                                        });
-                                    }
-                                });
-                                Scene.vars.bronzeGroup = trophy3;
-
-                                document.querySelector('#loading').remove();
-
-                                Scene.vars.animSpeed = -0.05;
-
-                                //Ajout de la lumière
-                                let lightIntensity = 0.25;
-
-                                let directional = new THREE.DirectionalLight(0xffffff, lightIntensity);
-                                let helper = new THREE.DirectionalLightHelper(directional, 5);
-                                directional.position.set(0, 700, 200);
-
-                                let light1 = new THREE.DirectionalLight(0xffffff, lightIntensity);
-                                let helper1 = new THREE.DirectionalLightHelper(light1, 5);
-                                light1.position.set(0,50,100);
-                                light1.target = Scene.vars.goldGroup;
-                                light1.name = "light1";
-
-                                let light2 = new THREE.DirectionalLight(0xffffff, lightIntensity);
-                                let helper2 = new THREE.DirectionalLightHelper(light2, 5);
-                                light2.position.set(-75,50,100);
-                                light2.target = Scene.vars.silverGroup;
-
-                                let light3 = new THREE.DirectionalLight(0xffffff, lightIntensity);
-                                let helper3 = new THREE.DirectionalLightHelper(light3, 5);
-                                light3.position.set(75,50,100);
-                                light3.target = Scene.vars.bronzeGroup;
-
-                                vars.scene.add(directional);
-                                vars.scene.add(helper);
-                                vars.scene.add(light1);
-                                vars.scene.add(helper1);
-                                vars.scene.add(light2);
-                                vars.scene.add(helper2);
-                                vars.scene.add(light3);
-                                vars.scene.add(helper3);
-
-                                //Ajout des ombres
-                                directional.castShadow = true;
-                                light1.castShadow = true;
-                                light2.castShadow = true;
-                                light3.castShadow = true;
-                                let d = 1000;
-
-                                directional.shadow.camera.left = -d;
-                                directional.shadow.camera.right = d;
-                                directional.shadow.camera.top = d;
-                                directional.shadow.camera.bottom = -d;
-                                directional.shadow.camera.far = 2000;
-                                directional.shadow.mapSize.width = 4096;
-                                directional.shadow.mapSize.height = 4096;
-
-                                light1.shadow.camera.left = -d;
-                                light1.shadow.camera.right = d;
-                                light1.shadow.camera.top = d;
-                                light1.shadow.camera.bottom = -d;
-                                light1.shadow.camera.far = 2000;
-                                light1.shadow.mapSize.width = 4096;
-                                light1.shadow.mapSize.height = 4096;
-                                
-                                light2.shadow.camera.left = -d;
-                                light2.shadow.camera.right = d;
-                                light2.shadow.camera.top = d;
-                                light2.shadow.camera.bottom = -d;
-                                light2.shadow.camera.far = 2000;
-                                light2.shadow.mapSize.width = 4096;
-                                light2.shadow.mapSize.height = 4096;
-
-                                light3.shadow.camera.left = -d;
-                                light3.shadow.camera.right = d;
-                                light3.shadow.camera.top = d;
-                                light3.shadow.camera.bottom = -d;
-                                light3.shadow.camera.far = 2000;
-                                light3.shadow.mapSize.width = 4096;
-                                light3.shadow.mapSize.height = 4096;
                             });
                         });
                     });
@@ -384,6 +383,14 @@ const Scene = {
                 Scene.vars.animPurcent = 0;
             }
         }
+        window.addEventListener('mousedown', function(event) {
+            if (Scene.vars.boutonGroup != undefined){
+                var intersectsButton = Scene.vars.raycaster.intersectObjects(Scene.vars.boutonGroup.children, true);
+                if (intersectsButton.length > 0) {
+                    Scene.clownParty();
+                }
+            }
+        });
     },
     onMouseMove: () => {
         Scene.vars.mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
@@ -426,7 +433,9 @@ const Scene = {
             Scene.vars.goldGroup.children[2].position.y = 0;
         }
     },
-    clown_party: () => {
+    clownParty: () => {
+        console.log('oui');
+        Scene.vars.boutonGroup.children[0].position.y = -2;
         Scene.vars.delta = Scene.vars.clock.getDelta();
         if (Scene.vars.delta%4 == 0) {
             console.log(Scene.vars.scene.children.length);
@@ -438,6 +447,7 @@ const Scene = {
             // Scene.vars.scene.children[12].visible = true;
             // Scene.vars.scene.children[14].visible = true;
         }
+        // Scene.vars.boutonGroup.children[0].position.y = 0;
         
     }
 };
