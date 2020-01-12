@@ -12,8 +12,6 @@ const Scene = {
         mouse: new THREE.Vector2(),
         raycaster: new THREE.Raycaster(),
         animPurcent: 0,
-        clock: new THREE.Clock(),
-        delta: 0, //units a second
         textButton: "Clown Party"
     },
     init:() => {
@@ -386,7 +384,6 @@ const Scene = {
         Scene.render();
         requestAnimationFrame(Scene.animate);
         Scene.vars.raycaster.setFromCamera(Scene.vars.mouse, Scene.vars.camera);
-        Scene.vars.clock.start();
         if (Scene.vars.goldGroup != undefined){
             var intersects = Scene.vars.raycaster.intersectObjects( Scene.vars.goldGroup.children, true );
             if (intersects.length > 0) {
@@ -482,7 +479,7 @@ const Scene = {
             Scene.vars.scene.children[9].color = new THREE.Color(0xffffff);
             Scene.vars.scene.children[11].color = new THREE.Color(0xffffff);
             Scene.vars.scene.children[13].color = new THREE.Color(0xffffff);
-        }, 3000);
+        }, 8000);
         
     }
 };
