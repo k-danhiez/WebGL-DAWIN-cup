@@ -12,7 +12,8 @@ const Scene = {
         mouse: new THREE.Vector2(),
         raycaster: new THREE.Raycaster(),
         animPurcent: 0,
-        textButton: "Clown Party"
+        textButton: "Clown Party",
+        clownTime: true
     },
     init:() => {
         let vars = Scene.vars;
@@ -87,24 +88,67 @@ const Scene = {
                     Scene.loadFBX("Plaquette.FBX", 10, [0, 4, 45], [0, 0, 0], 0xFFFFFF, "plaquette", () => {
                         Scene.loadFBX("Logo_Feelity.FBX", 10, [45, 22, 0], [0, 0, 0], 0xFFFFFF, "logo1", () => {
                             Scene.loadText(Scene.vars.text, 10, [0, 23, 46], [0, 0, 0], 0x1A1A1A, "texte", () => {
-                                Scene.loadText(Scene.vars.textButton, 5, [0, 25, 0], [Math.PI * (-0.5), 0, 0], 0xFFFFFF, "texteBouton", () => {
+                                Scene.loadText(Scene.vars.textButton, 5, [0, 40, 0], [Math.PI * (-0.5), 0, 0], 0xFFFFFF, "texteBouton", () => {
 
                                     //Costume de clown
+
+                                    //Nez Rouge
                                     var redNoseSphere = new THREE.SphereGeometry(3, 32, 32);
-                                    var redNoseMaterial = new THREE.MeshStandardMaterial( {color: 0xad0c00, roughness: .3, metalness: .6} );
+                                    var redNoseMaterial = new THREE.MeshStandardMaterial( {color: 0xad0c00, roughness: .3, metalness: 0} );
                                     var redNose = new THREE.Mesh(redNoseSphere, redNoseMaterial);
                                     redNose.position.z = 8;
                                     redNose.position.y = 167;
                                     redNose.castShadow = true;
                                     redNose.visible = false;
 
-                                    var greenWigSphere = new THREE.SphereGeometry(18, 32, 32);
-                                    var greenWigMaterial = new THREE.MeshStandardMaterial( {color: 0x34c400, roughness: .3, metalness: .6} );
-                                    var greenWig = new THREE.Mesh(greenWigSphere, greenWigMaterial);
-                                    greenWig.position.z = -13.5;
-                                    greenWig.position.y = 182;
-                                    greenWig.castShadow = true;
-                                    greenWig.visible = false;
+                                    //Perruque verte (compliqué là où ça ne devrait pas)
+                                    var greenWigSphere1 = new THREE.SphereGeometry(10, 32, 32);
+                                    var greenWigSphere2 = new THREE.SphereGeometry(10, 32, 32);
+                                    var greenWigSphere3 = new THREE.SphereGeometry(10, 32, 32);
+                                    var greenWigSphere4 = new THREE.SphereGeometry(10, 32, 32);
+                                    var greenWigSphere5 = new THREE.SphereGeometry(10, 32, 32);
+                                    var greenWigSphere6 = new THREE.SphereGeometry(12, 32, 32);
+                                    var greenWigMaterial = new THREE.MeshStandardMaterial( {color: 0x34c400, roughness: 0.9, metalness: 0.1} );
+                                    
+                                    var greenWig1 = new THREE.Mesh(greenWigSphere1, greenWigMaterial);
+                                    greenWig1.position.z = -5;
+                                    greenWig1.position.y = 182;
+                                    greenWig1.castShadow = true;
+                                    greenWig1.visible = false;
+
+                                    var greenWig2 = new THREE.Mesh(greenWigSphere2, greenWigMaterial);
+                                    greenWig2.position.z = -8;
+                                    greenWig2.position.y = 179;
+                                    greenWig2.position.x = -8;
+                                    greenWig2.castShadow = true;
+                                    greenWig2.visible = false;
+
+                                    var greenWig3 = new THREE.Mesh(greenWigSphere3, greenWigMaterial);
+                                    greenWig3.position.z = -8;
+                                    greenWig3.position.y = 179;
+                                    greenWig3.position.x = 8;
+                                    greenWig3.castShadow = true;
+                                    greenWig3.visible = false;
+
+                                    var greenWig4 = new THREE.Mesh(greenWigSphere4, greenWigMaterial);
+                                    greenWig4.position.z = -12;
+                                    greenWig4.position.y = 184;
+                                    greenWig4.position.x = -4;
+                                    greenWig4.castShadow = true;
+                                    greenWig4.visible = false;
+
+                                    var greenWig5 = new THREE.Mesh(greenWigSphere5, greenWigMaterial);
+                                    greenWig5.position.z = -12;
+                                    greenWig5.position.y = 184;
+                                    greenWig5.position.x = 4;
+                                    greenWig5.castShadow = true;
+                                    greenWig5.visible = false;
+
+                                    var greenWig6 = new THREE.Mesh(greenWigSphere6, greenWigMaterial);
+                                    greenWig6.position.z = -13;
+                                    greenWig6.position.y = 175;
+                                    greenWig6.castShadow = true;
+                                    greenWig6.visible = false;
 
                                     //Positionnement du trophée
                                     let trophy = new THREE.Group();
@@ -121,7 +165,12 @@ const Scene = {
                                     trophy.add(logo2);
 
                                     trophy.add(redNose);
-                                    trophy.add(greenWig);
+                                    trophy.add(greenWig1);
+                                    trophy.add(greenWig2);
+                                    trophy.add(greenWig3);
+                                    trophy.add(greenWig4);
+                                    trophy.add(greenWig5);
+                                    trophy.add(greenWig6);
 
                                     let trophy2 = trophy.clone();
                                     let trophy3 = trophy.clone();
@@ -168,22 +217,26 @@ const Scene = {
                                     let directional = new THREE.DirectionalLight(0xffffff, lightIntensity);
                                     let helper = new THREE.DirectionalLightHelper(directional, 5);
                                     directional.position.set(0, 700, 200);
+                                    helper.visible = false;
 
                                     let light1 = new THREE.DirectionalLight(0xffffff, lightIntensity);
                                     let helper1 = new THREE.DirectionalLightHelper(light1, 5);
                                     light1.position.set(0,50,100);
                                     light1.target = Scene.vars.goldGroup;
                                     light1.name = "light1";
+                                    helper1.visible = false;
 
                                     let light2 = new THREE.DirectionalLight(0xffffff, lightIntensity);
                                     let helper2 = new THREE.DirectionalLightHelper(light2, 5);
                                     light2.position.set(-75,50,100);
                                     light2.target = Scene.vars.silverGroup;
+                                    helper2.visible = false;
 
                                     let light3 = new THREE.DirectionalLight(0xffffff, lightIntensity);
                                     let helper3 = new THREE.DirectionalLightHelper(light3, 5);
                                     light3.position.set(75,50,100);
                                     light3.target = Scene.vars.bronzeGroup;
+                                    helper3.visible = false;
 
                                     vars.scene.add(directional);
                                     vars.scene.add(helper);
@@ -236,21 +289,26 @@ const Scene = {
                                     //Création du bouton
 
                                     //Base
-                                    var geometryCylinder = new THREE.CylinderGeometry( 20, 20, 30, 32 );
+                                    var geometryCylinder = new THREE.CylinderGeometry( 30, 30, 40, 32 );
                                     var materialCylinder = new THREE.MeshBasicMaterial( {color: 0x333333} );
                                     var cylinder = new THREE.Mesh( geometryCylinder, materialCylinder );
-                                    cylinder.position.z = 60;
+                                    cylinder.position.z = 80;
                                     vars.scene.add(cylinder);
 
                                     //Bouton
 
-                                    var geometryButton = new THREE.SphereGeometry(25, 32, 32, 0, Math.PI * 2, 0, 0.75);
+                                    var geometryButton = new THREE.SphereGeometry(40, 32, 32, 0, Math.PI * 2, 0, 0.75);
                                     var materialButton = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
                                     var buttonTop = new THREE.Mesh( geometryButton, materialButton );
+                                    var geometryRessort = new THREE.CylinderGeometry(15, 15, 15, 32);
+                                    var materialRessort = new THREE.MeshBasicMaterial( {color:0x777777} );
+                                    var ressort = new THREE.Mesh( geometryRessort, materialRessort );
+                                    ressort.position.y = 20;
                                     let bouton = new THREE.Group();
                                     bouton.add(buttonTop);
                                     bouton.add(Scene.vars.texteBouton);
-                                    bouton.position.z = 60;
+                                    bouton.add(ressort);
+                                    bouton.position.z = 80;
                                     vars.scene.add(bouton);
 
                                     Scene.vars.boutonGroup = bouton;
@@ -447,39 +505,67 @@ const Scene = {
         //Statuette
         if(Scene.vars.animPurcent >= 0.4) {
             Scene.vars.goldGroup.children[2].translateY(base * 3);
-            Scene.vars.goldGroup.children[7].translateY(base * 3);
-            Scene.vars.goldGroup.children[8].translateY(base * 3);
+            for (let i = 7; i < 14; i++) {
+                Scene.vars.goldGroup.children[i].translateY(base * 3);
+            }
         } else if (Scene.vars.animPurcent < 0.7) {
             Scene.vars.goldGroup.children[2].position.y = 0;
             Scene.vars.goldGroup.children[7].position.y = 167;
             Scene.vars.goldGroup.children[8].position.y = 182;
+            Scene.vars.goldGroup.children[9].position.y = 179;
+            Scene.vars.goldGroup.children[10].position.y = 179;
+            Scene.vars.goldGroup.children[11].position.y = 184;
+            Scene.vars.goldGroup.children[12].position.y = 184;
+            Scene.vars.goldGroup.children[13].position.y = 175;
         }
     },
     clownParty: () => {
-        Scene.vars.boutonGroup.children[0].position.y = -3; //doit être plus smooth
-        Scene.vars.boutonGroup.children[1].position.y = 22;
-        Scene.vars.goldGroup.children[7].visible = true;
-        Scene.vars.goldGroup.children[8].visible = true;
-        Scene.vars.silverGroup.children[7].visible = true;
-        Scene.vars.silverGroup.children[8].visible = true;
-        Scene.vars.bronzeGroup.children[7].visible = true;
-        Scene.vars.bronzeGroup.children[8].visible = true;
-        Scene.vars.scene.children[9].color = new THREE.Color(0x0000ff);
-        Scene.vars.scene.children[11].color = new THREE.Color(0xff0000);
-        Scene.vars.scene.children[13].color = new THREE.Color(0x00ff00);
-        setTimeout(function(){
-            Scene.vars.boutonGroup.children[0].position.y = 0;
-            Scene.vars.boutonGroup.children[1].position.y = 25;
-            Scene.vars.goldGroup.children[7].visible = false;
-            Scene.vars.goldGroup.children[8].visible = false;
-            Scene.vars.silverGroup.children[7].visible = false;
-            Scene.vars.silverGroup.children[8].visible = false;
-            Scene.vars.bronzeGroup.children[7].visible = false;
-            Scene.vars.bronzeGroup.children[8].visible = false;
-            Scene.vars.scene.children[9].color = new THREE.Color(0xffffff);
-            Scene.vars.scene.children[11].color = new THREE.Color(0xffffff);
-            Scene.vars.scene.children[13].color = new THREE.Color(0xffffff);
-        }, 8000);
+        if (Scene.vars.clownTime) {
+            Scene.vars.clownTime = false;
+            Scene.vars.boutonGroup.children[0].position.y = -3; //doit être plus smooth
+            Scene.vars.boutonGroup.children[1].position.y = 37;
+            for(let i = 7; i < 14; i++) {
+                Scene.vars.goldGroup.children[i].visible = true;
+                Scene.vars.silverGroup.children[i].visible = true;
+                Scene.vars.bronzeGroup.children[i].visible = true;
+            }
+            Scene.vars.scene.children[9].color = new THREE.Color(0x0000ff);
+            Scene.vars.scene.children[11].color = new THREE.Color(0xff0000);
+            Scene.vars.scene.children[13].color = new THREE.Color(0x00ff00);
+
+            let clignote = 0;
+            setInterval(function() {
+                if (clignote > 13) {
+                    clearInterval();
+                } else {
+                    if (clignote%2 == 0) {
+                        Scene.vars.scene.children[9].visible = false;
+                        Scene.vars.scene.children[11].visible = false;
+                        Scene.vars.scene.children[13].visible = false;
+                    } else {
+                        Scene.vars.scene.children[9].visible = true;
+                        Scene.vars.scene.children[11].visible = true;
+                        Scene.vars.scene.children[13].visible = true;
+                    }
+                }
+                clignote ++;
+            }, 500);
+
+            setTimeout(function(){
+                Scene.vars.boutonGroup.children[0].position.y = 0;
+                Scene.vars.boutonGroup.children[1].position.y = 40;
+
+                for(let i = 7; i < 14; i++) {
+                    Scene.vars.goldGroup.children[i].visible = false;
+                    Scene.vars.silverGroup.children[i].visible = false;
+                    Scene.vars.bronzeGroup.children[i].visible = false;
+                }
+                Scene.vars.scene.children[9].color = new THREE.Color(0xffffff);
+                Scene.vars.scene.children[11].color = new THREE.Color(0xffffff);
+                Scene.vars.scene.children[13].color = new THREE.Color(0xffffff);
+                Scene.vars.clownTime = true;
+            }, 8000);
+        }
         
     }
 };
