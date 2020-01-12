@@ -386,6 +386,7 @@ const Scene = {
         Scene.render();
         requestAnimationFrame(Scene.animate);
         Scene.vars.raycaster.setFromCamera(Scene.vars.mouse, Scene.vars.camera);
+        Scene.vars.clock.start();
         if (Scene.vars.goldGroup != undefined){
             var intersects = Scene.vars.raycaster.intersectObjects( Scene.vars.goldGroup.children, true );
             if (intersects.length > 0) {
@@ -458,29 +459,30 @@ const Scene = {
         }
     },
     clownParty: () => {
-        Scene.vars.boutonGroup.children[0].position.y = -2; //doit être plus smooth
-        Scene.vars.boutonGroup.children[1].position.y = 23;
+        Scene.vars.boutonGroup.children[0].position.y = -3; //doit être plus smooth
+        Scene.vars.boutonGroup.children[1].position.y = 22;
         Scene.vars.goldGroup.children[7].visible = true;
         Scene.vars.goldGroup.children[8].visible = true;
         Scene.vars.silverGroup.children[7].visible = true;
         Scene.vars.silverGroup.children[8].visible = true;
         Scene.vars.bronzeGroup.children[7].visible = true;
         Scene.vars.bronzeGroup.children[8].visible = true;
-        //Scene.vars.scene.children[7].color = new THREE.Color(0xff0000);
         Scene.vars.scene.children[9].color = new THREE.Color(0x0000ff);
         Scene.vars.scene.children[11].color = new THREE.Color(0xff0000);
         Scene.vars.scene.children[13].color = new THREE.Color(0x00ff00);
-        Scene.vars.delta = Scene.vars.clock.getDelta();
-        if (Scene.vars.delta%4 == 0) {
-            // Scene.vars.scene.children[9].visible = false;
-            // Scene.vars.scene.children[11].visible = false;
-            // Scene.vars.scene.children[13].visible = false;
-        } else if (Scene.vars.delta%4 == 2) {
-            // Scene.vars.scene.children[9].visible = true;
-            // Scene.vars.scene.children[11].visible = true;
-            // Scene.vars.scene.children[13].visible = true;
-        }
-        //Scene.vars.boutonGroup.children[0].position.y = 0;
+        setTimeout(function(){
+            Scene.vars.boutonGroup.children[0].position.y = 0;
+            Scene.vars.boutonGroup.children[1].position.y = 25;
+            Scene.vars.goldGroup.children[7].visible = false;
+            Scene.vars.goldGroup.children[8].visible = false;
+            Scene.vars.silverGroup.children[7].visible = false;
+            Scene.vars.silverGroup.children[8].visible = false;
+            Scene.vars.bronzeGroup.children[7].visible = false;
+            Scene.vars.bronzeGroup.children[8].visible = false;
+            Scene.vars.scene.children[9].color = new THREE.Color(0xffffff);
+            Scene.vars.scene.children[11].color = new THREE.Color(0xffffff);
+            Scene.vars.scene.children[13].color = new THREE.Color(0xffffff);
+        }, 3000);
         
     }
 };
