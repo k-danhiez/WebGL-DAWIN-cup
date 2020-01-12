@@ -19,9 +19,9 @@ Pointer sa souris sur la statuette du centre active une animation qui sépare le
 Retirer le pointeur de la statuette fait revenir chaque élément à sa position initiale
 
 2)
-Ajouter "#/" suivi d'un texte à la fin de l'URL permet de changer le texte "DAWIN" sur la statuette
+Ajouter "/#" suivi d'un texte à la fin de l'URL permet de changer le texte "DAWIN" sur la statuette (un rechargement de la page sera toutefois nécessaire pour appliquer ce changement)
 
-Par exemple, ajouter "#/bigornot" à la fin de l'URL changera le texte sur la statuette en "bigornot"
+Par exemple, ajouter "/#bigornot" à la fin de l'URL changera le texte sur la statuette en "bigornot"
 
 3)
 Cliquer sur le bouton au centre le fait se presser
