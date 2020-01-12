@@ -2,7 +2,7 @@
 
 Comment lancer la scène ?
 
-Se rendre dans le dossier "dawin-cup" depuis un terminal de commandes
+Se rendre dans le dossier où se trouve "script.js" depuis un terminal de commandes
 Entrer la commande "npx http-server"
 Choisir une des adresses IP données et l'entrer dans le champs d'URL d'un navigateur
 Voilà
