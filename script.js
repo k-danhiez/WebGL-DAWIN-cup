@@ -102,12 +102,12 @@ const Scene = {
                                     redNose.visible = false;
 
                                     //Perruque verte (compliqué là où ça ne devrait pas)
-                                    var greenWigSphere1 = new THREE.SphereGeometry(10, 32, 32);
-                                    var greenWigSphere2 = new THREE.SphereGeometry(10, 32, 32);
-                                    var greenWigSphere3 = new THREE.SphereGeometry(10, 32, 32);
-                                    var greenWigSphere4 = new THREE.SphereGeometry(10, 32, 32);
-                                    var greenWigSphere5 = new THREE.SphereGeometry(10, 32, 32);
-                                    var greenWigSphere6 = new THREE.SphereGeometry(12, 32, 32);
+                                    var greenWigSphere1 = new THREE.SphereGeometry(10, 16, 16);
+                                    var greenWigSphere2 = new THREE.SphereGeometry(10, 16, 16);
+                                    var greenWigSphere3 = new THREE.SphereGeometry(10, 16, 16);
+                                    var greenWigSphere4 = new THREE.SphereGeometry(10, 16, 16);
+                                    var greenWigSphere5 = new THREE.SphereGeometry(10, 16, 16);
+                                    var greenWigSphere6 = new THREE.SphereGeometry(12, 16, 16);
                                     var greenWigMaterial = new THREE.MeshStandardMaterial( {color: 0x34c400, roughness: 0.9, metalness: 0.1} );
                                     
                                     var greenWig1 = new THREE.Mesh(greenWigSphere1, greenWigMaterial);
