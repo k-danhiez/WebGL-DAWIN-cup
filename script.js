@@ -290,19 +290,22 @@ const Scene = {
 
                                     //Base
                                     var geometryCylinder = new THREE.CylinderGeometry( 30, 30, 40, 32 );
-                                    var materialCylinder = new THREE.MeshBasicMaterial( {color: 0x333333} );
+                                    var materialCylinder = new THREE.MeshStandardMaterial( {color: 0xAAAAAA, roughness: 0.3, metalness: 1} );
                                     var cylinder = new THREE.Mesh( geometryCylinder, materialCylinder );
+                                    cylinder.castShadow = true;
                                     cylinder.position.z = 80;
                                     vars.scene.add(cylinder);
 
                                     //Bouton
 
                                     var geometryButton = new THREE.SphereGeometry(40, 32, 32, 0, Math.PI * 2, 0, 0.75);
-                                    var materialButton = new THREE.MeshBasicMaterial( {color: 0xFF0000} );
+                                    var materialButton = new THREE.MeshStandardMaterial( {color: 0xFF0000} );
                                     var buttonTop = new THREE.Mesh( geometryButton, materialButton );
+                                    buttonTop.castShadow = true;
                                     var geometryRessort = new THREE.CylinderGeometry(15, 15, 15, 32);
-                                    var materialRessort = new THREE.MeshBasicMaterial( {color:0x777777} );
+                                    var materialRessort = new THREE.MeshStandardMaterial( {color:0xCCCCCC, roughness: 0.7, metalness: 1} );
                                     var ressort = new THREE.Mesh( geometryRessort, materialRessort );
+                                    ressort.castShadow = true;
                                     ressort.position.y = 20;
                                     let bouton = new THREE.Group();
                                     bouton.add(buttonTop);
@@ -521,6 +524,7 @@ const Scene = {
     },
     clownParty: () => {
         if (Scene.vars.clownTime) {
+            console.log(Scene.vars.scene);
             Scene.vars.clownTime = false;
             Scene.vars.boutonGroup.children[0].position.y = -3; //doit être plus smooth
             Scene.vars.boutonGroup.children[1].position.y = 37;
@@ -535,21 +539,31 @@ const Scene = {
 
             let clignote = 0;
             setInterval(function() {
-                if (clignote > 13) {
+                if (clignote > 37) {
                     clearInterval();
                 } else {
-                    if (clignote%2 == 0) {
-                        Scene.vars.scene.children[9].visible = false;
-                        Scene.vars.scene.children[11].visible = false;
-                        Scene.vars.scene.children[13].visible = false;
+                    if (clignote%3 == 0) {
+                        // Scene.vars.scene.children[9].visible = false;
+                        // Scene.vars.scene.children[11].visible = false;
+                        // Scene.vars.scene.children[13].visible = false;
+                        Scene.vars.scene.children[9].color = new THREE.Color(0xff0000);
+                        Scene.vars.scene.children[11].color = new THREE.Color(0x00ff00);
+                        Scene.vars.scene.children[13].color = new THREE.Color(0x0000ff);
+                    } else if (clignote%3 == 1) {
+                        // Scene.vars.scene.children[9].visible = true;
+                        // Scene.vars.scene.children[11].visible = true;
+                        // Scene.vars.scene.children[13].visible = true;
+                        Scene.vars.scene.children[9].color = new THREE.Color(0x0000ff);
+                        Scene.vars.scene.children[11].color = new THREE.Color(0xff0000);
+                        Scene.vars.scene.children[13].color = new THREE.Color(0x00ff00);
                     } else {
-                        Scene.vars.scene.children[9].visible = true;
-                        Scene.vars.scene.children[11].visible = true;
-                        Scene.vars.scene.children[13].visible = true;
+                        Scene.vars.scene.children[9].color = new THREE.Color(0x00ff00);
+                        Scene.vars.scene.children[11].color = new THREE.Color(0x0000ff);
+                        Scene.vars.scene.children[13].color = new THREE.Color(0xff0000);
                     }
                 }
                 clignote ++;
-            }, 500);
+            }, 200);
 
             setTimeout(function(){
                 Scene.vars.boutonGroup.children[0].position.y = 0;
