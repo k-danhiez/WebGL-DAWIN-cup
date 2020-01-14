@@ -81,6 +81,14 @@ const Scene = {
             Scene.vars.text = "DAWIN";
         }
 
+        // create an AudioListener and add it to the camera
+        vars.listener = new THREE.AudioListener();
+        vars.camera.add( vars.listener );
+
+        // create a global audio source
+        vars.sound = new THREE.Audio( vars.listener );
+
+
         //Chargement des objets
         Scene.loadFBX("Socle_Partie1.FBX", 10, [0, 0, 0], [0, 0, 0], 0x1A1A1A, "socle1", () => {
             Scene.loadFBX("Socle_Partie2.FBX", 10, [0, 0, 0], [0, 0, 0], 0x1A1A1A, "socle2", () => {
@@ -94,9 +102,9 @@ const Scene = {
 
                                     //Nez Rouge
                                     var redNoseSphere = new THREE.SphereGeometry(3, 32, 32);
+                                    redNoseSphere.translate(0,0,-8);
                                     var redNoseMaterial = new THREE.MeshStandardMaterial( {color: 0xad0c00, roughness: .3, metalness: 0} );
                                     var redNose = new THREE.Mesh(redNoseSphere, redNoseMaterial);
-                                    redNose.position.z = 8;
                                     redNose.position.y = 167;
                                     redNose.castShadow = true;
                                     redNose.visible = false;
@@ -110,42 +118,43 @@ const Scene = {
                                     var greenWigSphere6 = new THREE.SphereGeometry(12, 16, 16);
                                     var greenWigMaterial = new THREE.MeshStandardMaterial( {color: 0x34c400, roughness: 0.9, metalness: 0.1} );
                                     
+                                    greenWigSphere1.translate(0,0,5);
+                                    greenWigSphere2.translate(0,0,8);
+                                    greenWigSphere3.translate(0,0,8);
+                                    greenWigSphere4.translate(0,0,12);
+                                    greenWigSphere5.translate(0,0,12);
+                                    greenWigSphere6.translate(0,0,13);
+
                                     var greenWig1 = new THREE.Mesh(greenWigSphere1, greenWigMaterial);
-                                    greenWig1.position.z = -5;
                                     greenWig1.position.y = 182;
                                     greenWig1.castShadow = true;
                                     greenWig1.visible = false;
 
                                     var greenWig2 = new THREE.Mesh(greenWigSphere2, greenWigMaterial);
-                                    greenWig2.position.z = -8;
                                     greenWig2.position.y = 179;
                                     greenWig2.position.x = -8;
                                     greenWig2.castShadow = true;
                                     greenWig2.visible = false;
 
                                     var greenWig3 = new THREE.Mesh(greenWigSphere3, greenWigMaterial);
-                                    greenWig3.position.z = -8;
                                     greenWig3.position.y = 179;
                                     greenWig3.position.x = 8;
                                     greenWig3.castShadow = true;
                                     greenWig3.visible = false;
 
                                     var greenWig4 = new THREE.Mesh(greenWigSphere4, greenWigMaterial);
-                                    greenWig4.position.z = -12;
                                     greenWig4.position.y = 184;
                                     greenWig4.position.x = -4;
                                     greenWig4.castShadow = true;
                                     greenWig4.visible = false;
 
                                     var greenWig5 = new THREE.Mesh(greenWigSphere5, greenWigMaterial);
-                                    greenWig5.position.z = -12;
                                     greenWig5.position.y = 184;
                                     greenWig5.position.x = 4;
                                     greenWig5.castShadow = true;
                                     greenWig5.visible = false;
 
                                     var greenWig6 = new THREE.Mesh(greenWigSphere6, greenWigMaterial);
-                                    greenWig6.position.z = -13;
                                     greenWig6.position.y = 175;
                                     greenWig6.castShadow = true;
                                     greenWig6.visible = false;
@@ -460,6 +469,8 @@ const Scene = {
                 Scene.vars.animPurcent = 1;
             } else if (Scene.vars.animPurcent <= 0.01) {
                 Scene.vars.animPurcent = 0;
+                Scene.vars.silverGroup.children[2].rotation.y = 0;
+                Scene.vars.bronzeGroup.children[2].rotation.y = 0;
             }
         }
         window.addEventListener('mousedown', function(event) {
@@ -477,7 +488,6 @@ const Scene = {
     },
     customAnimation: () => {
         let base = 24 * Scene.vars.animSpeed;
-
         //Plaquette
         if(Scene.vars.animPurcent > 0.1 && Scene.vars.animPurcent <= 0.33) {
             Scene.vars.goldGroup.children[3].translateZ(base * 3);
@@ -508,8 +518,16 @@ const Scene = {
         //Statuette
         if(Scene.vars.animPurcent >= 0.4) {
             Scene.vars.goldGroup.children[2].translateY(base * 3);
+            Scene.vars.goldGroup.children[2].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * (-1.8);
             for (let i = 7; i < 14; i++) {
                 Scene.vars.goldGroup.children[i].translateY(base * 3);
+                Scene.vars.goldGroup.children[i].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * 1.2;
+                if(!Scene.vars.clownTime) {
+                    Scene.vars.silverGroup.children[2].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * (-1.8);
+                    Scene.vars.silverGroup.children[i].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * 1.2;
+                    Scene.vars.bronzeGroup.children[2].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * (-1.8);
+                    Scene.vars.bronzeGroup.children[i].rotation.y = Scene.vars.animPurcent * 4 * Math.PI + Math.PI * 1.2;
+                }
             }
         } else if (Scene.vars.animPurcent < 0.7) {
             Scene.vars.goldGroup.children[2].position.y = 0;
@@ -524,11 +542,20 @@ const Scene = {
     },
     clownParty: () => {
         if (Scene.vars.clownTime) {
-            console.log(Scene.vars.scene);
+            var audioLoader = new THREE.AudioLoader();
+            audioLoader.load( 'audio/pouet.ogg', function( buffer ) {
+                Scene.vars.sound.setBuffer( buffer );
+                Scene.vars.sound.setLoop( false );
+                Scene.vars.sound.setVolume( 0.9 );
+                Scene.vars.sound.play();
+            });
             Scene.vars.clownTime = false;
             Scene.vars.boutonGroup.children[0].position.y = -3; //doit être plus smooth
             Scene.vars.boutonGroup.children[1].position.y = 37;
             for(let i = 7; i < 14; i++) {
+                Scene.vars.goldGroup.children[i].rotation.y = Math.PI;
+                Scene.vars.silverGroup.children[i].rotation.y = Math.PI;
+                Scene.vars.bronzeGroup.children[i].rotation.y = Math.PI;
                 Scene.vars.goldGroup.children[i].visible = true;
                 Scene.vars.silverGroup.children[i].visible = true;
                 Scene.vars.bronzeGroup.children[i].visible = true;
