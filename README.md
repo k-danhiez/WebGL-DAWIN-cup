@@ -16,6 +16,8 @@ Qu'est-ce que je peux faire une fois la scène sur mon écran ?
 1)
 Pointer sa souris sur la statuette du centre active une animation qui sépare les différents éléments la composant
 
+La statuette fait un tour sur elle-même
+
 Retirer le pointeur de la statuette fait revenir chaque élément à sa position initiale
 
 2)
@@ -30,12 +32,12 @@ Les statuettes changent d'apparence
 
 La statuette du centre garde son animation et son costume la suit
 
-La lumière au plafond s'éteint et les trois lumières en face des statuettes changent de couleur
+Les autres statuettes tournent également tant que le bouton est pressé
 
-Ces trois lumières clignotent pendant 8 secondes
+La lumière au plafond s'éteint et les trois lumières en face des statuettes changent de couleur en rythme pendant 8 secondes
 
 Une fois ces 8 secondes écoulées, tout redevient comme avant l'activation du bouton
 
 Le bouton revient à sa position initiale
 
-L'opération est répétable, mais il faut attendre que le bouton soit réactivable
+L'opération est répétable, mais il faut attendre que le bouton se relève
